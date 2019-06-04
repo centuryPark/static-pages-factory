@@ -1,4 +1,7 @@
-## 开始开发新页面
+## 说明
+- 该项目用于打包生成内联css和js的html静态页面。比如下载落地页，活动宣传页等等。
+
+## 开始
 
 - 执行下列命令，将在src目录下生成 <abbr>newpage</abbr> 文件夹，里面包含index.html,style.css,index.js ,修改js入口文件和html模版文件目录（build/config.js）;
 
