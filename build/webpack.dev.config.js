@@ -1,12 +1,12 @@
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const originPath = require('./config');
 
 module.exports = {
   mode: 'development',
   devtool: 'eval-source-map',
   entry: {
-    index: './src/login/index.js',
+    index: `${originPath}/index.js`,
   },
   output: {
     filename: '[name].bundle.js',
@@ -34,7 +34,7 @@ module.exports = {
             options: {
               limit: '8192',
               outputPath: 'img/',
-              publicPath: '../img',
+              publicPath: './img',
             },
           },
         ],
@@ -44,12 +44,7 @@ module.exports = {
         // loader处理顺序从下往上
         use: [
           {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              // 指定一个 publicPath
-              // 默认使用 webpackOptions.output中的publicPath
-              // publicPath: '../css/'
-            },
+            loader: 'style-loader',
           },
           {
             loader: 'css-loader', // 将 CSS 转化成 CommonJS 模块
@@ -68,24 +63,15 @@ module.exports = {
     ],
   },
   plugins: [
-    new MiniCssExtractPlugin({
-      filename: 'style.css',
-    }),
     new HTMLWebpackPlugin({
-      title: 'Code Splitting',
-      template: './src/login/index.html',
-      // inlineSource: '.(js|css)$',
+      template: `${originPath}/index.html`,
     }),
-    // new HtmlWebpackInlineSourcePlugin(),
   ],
   devServer: {
-    contentBase: '../dist',
-    // compress: true, // 一切服务都启用gzip 压缩
+    contentBase: path.resolve(__dirname, '../dist'),
+    compress: true, // 一切服务都启用gzip 压缩
     port: 9009,
     host: '0.0.0.0',
-    overlay: true,
-    historyApiFallback: {
-      disableDotRule: true,
-    }
+    overlay: true
   },
 };

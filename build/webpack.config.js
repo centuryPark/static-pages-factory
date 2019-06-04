@@ -3,11 +3,12 @@ const webpack = require('webpack');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const originPath = require('./config');
 
 module.exports = {
   mode: "production",
   entry: {
-    index: './src/login/index.js',
+    index: `${originPath}/index.js`,
   },
   output: {
     filename: '[name].bundle.js',
@@ -35,7 +36,7 @@ module.exports = {
             options: {
               limit: '8192',
               outputPath: 'img/',
-              publicPath: '../img',
+              publicPath: './img',
             },
           },
         ],
@@ -73,8 +74,7 @@ module.exports = {
       filename: 'style.css',
     }),
     new HTMLWebpackPlugin({
-      title: 'Code Splitting',
-      template: './src/login/index.html',
+      template: `${originPath}/index.html`,
       inlineSource: '.(js|css)$',
     }),
     new HtmlWebpackInlineSourcePlugin(),

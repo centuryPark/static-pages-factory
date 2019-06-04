@@ -1,0 +1,23 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+#app {
+    margin: 0 auto;
+    background: #fb6044;
+    padding-bottom: 3.5rem;
+}
+img {
+    width: 100%;
+    vertical-align: top;
+}
+#btn {
+    color: #fff;
+    display: block;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    left: 50%;
+    transform: translate(-50%);
+    background:#a4003c
+}
