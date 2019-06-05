@@ -1,3 +1,3 @@
-let originPath = './src/DianDianDl';
+let originPath = './src/open';
 
 module.exports = originPath;

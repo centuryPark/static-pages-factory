@@ -21,13 +21,6 @@ module.exports = {
         loader: 'html-withimg-loader'
       },
       {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-        },
-      },
-      {
         test: /\.(png|svg|jpg|gif)$/,
         // url-loader内置了file-loader,不同的是，当文件小于1024字节时，会转换为base64编码
         use: [
@@ -55,6 +48,8 @@ module.exports = {
           },
           {
             loader: 'css-loader', // 将 CSS 转化成 CommonJS 模块
+            options: {
+            }
           },
           {
             loader: 'postcss-loader',
@@ -67,7 +62,17 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+        },
+      },
     ],
+  },
+  externals: {
+    'openinstall': 'OpenInstall'
   },
   plugins: [
     new MiniCssExtractPlugin({
@@ -76,6 +81,12 @@ module.exports = {
     new HTMLWebpackPlugin({
       template: `${originPath}/index.html`,
       inlineSource: '.(js|css)$',
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true
+      },
+      inject: 'head',
+      chunks: ["index"]
     }),
     new HtmlWebpackInlineSourcePlugin(),
     new webpack.DefinePlugin({

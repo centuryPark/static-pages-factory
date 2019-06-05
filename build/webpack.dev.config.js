@@ -65,8 +65,12 @@ module.exports = {
   plugins: [
     new HTMLWebpackPlugin({
       template: `${originPath}/index.html`,
+      inject: 'head',
     }),
   ],
+  externals: {
+    'openinstall': 'OpenInstall'
+  },
   devServer: {
     contentBase: path.resolve(__dirname, '../dist'),
     compress: true, // 一切服务都启用gzip 压缩

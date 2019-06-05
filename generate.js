@@ -40,6 +40,23 @@ function getFilePathAndName() {
 
 const [_filePath, _fileName]   = getFilePathAndName();
 
+function removeDir(dir, element) {
+  let files = fs.readdirSync(dir);
+  for(var i=0;i<files.length;i++){
+    let newPath = path.join(dir,files[i]);
+    let stat = fs.statSync(newPath);
+    if(stat.isDirectory()){
+      //如果是文件夹就递归下去
+      removeDir(newPath, element);
+    }else {
+      //删除文件
+      console.log(`${element} delete complete!`);
+      fs.unlinkSync(newPath);
+    }
+  }
+  fs.rmdirSync(dir);//如果文件夹是空的，就将自己删除掉
+}
+
 function createFiles(targetDirPath) {
   // 读取模版文件夹中的所有文件
   const tpls = fs.readdirSync(path.join(ROOT_PATH, "/template"));
@@ -49,9 +66,14 @@ function createFiles(targetDirPath) {
     // let name = element.split('.')[0];
     const source = path.join(ROOT_PATH, "/template/", element);
     fs.readFile(source, function (readErr, fileData) {
+      // todo readErr 删除文件夹
       fs.writeFile(path.join(ROOT_PATH, targetDirPath, element), fileData, function(err) {
-        if (err) throw err;
-        console.log(`${element} create complete!`);
+        if (err) {
+          removeDir(targetDirPath, element);
+          throw err;
+        } else {
+          console.log(`${element} create complete!`);
+        }
       });
     });
   });
@@ -64,7 +86,7 @@ function generateFiles(filePath, dirName) {
     if (err) {
       console.error('Failed to create file');
     } else {
-      console.log('generate page', filePath, dirName);
+      console.log('generate dir', filePath, dirName);
       // 创建文件
       createFiles(`${filePath}/${dirName}`);
     }
